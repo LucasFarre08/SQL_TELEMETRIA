@@ -1,5 +1,4 @@
 SET SQL_SAFE_UPDATES = 0;
-
 START TRANSACTION;
 
 DROP TEMPORARY TABLE IF EXISTS tmp_motoristas;
@@ -40,8 +39,8 @@ COLLATE utf8mb4_0900_ai_ci;
 
 UPDATE agrupado_motoristas a
 JOIN tmp_motoristas t
-ON a.motoristas_id = t.motoristas_id
-AND a.ano_mes = t.ano_mes
+ON a.motoristas_id = t.motoristas_id COLLATE utf8mb4_0900_ai_ci
+AND a.ano_mes = t.ano_mes COLLATE utf8mb4_0900_ai_ci
 SET
     a.placas = t.placas,
     a.km_total = t.km_total,
@@ -62,8 +61,8 @@ SELECT
     t.litros_total
 FROM tmp_motoristas t
 LEFT JOIN agrupado_motoristas a
-ON a.motoristas_id = t.motoristas_id
-AND a.ano_mes = t.ano_mes
+ON a.motoristas_id = t.motoristas_id COLLATE utf8mb4_0900_ai_ci
+AND a.ano_mes = t.ano_mes COLLATE utf8mb4_0900_ai_ci
 WHERE a.motoristas_id IS NULL;
 
 DROP TEMPORARY TABLE IF EXISTS tmp_motoristas;
