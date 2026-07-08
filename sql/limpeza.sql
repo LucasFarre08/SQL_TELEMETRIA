@@ -15,3 +15,6 @@ WHERE litros_consumidos > 1000;
 UPDATE viagens
 SET litros_consumidos = 0
 WHERE litros_consumidos < 0;
+
+DELETE FROM kickdown
+WHERE ativado is NULL;
