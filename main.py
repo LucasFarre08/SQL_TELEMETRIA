@@ -21,8 +21,7 @@ conn = mysql.connector.connect(
     user=MYSQL["user"],
     password=MYSQL["password"],
     database=args.database,
-    autocommit=False,
-    use_pure=True
+    autocommit=False
 )
 cursor = conn.cursor()
 
@@ -39,7 +38,7 @@ arquivos = [
     "sql/agregado_mensal.sql",
     "sql/agregado_motoristas.sql",
     "sql/agregado_ociosidade.sql",
-    
+    "sql/copia_pernambucanas.sql"
 ]
 
 try:
@@ -61,7 +60,7 @@ try:
             if not cursor.nextset():
                 break
     conn.commit()
-    print("\n✔ Processo finalizado.")
+    print("\n[OK] Processo finalizado.")
 except Exception as e:
     conn.rollback()
     print("\n========================")
