@@ -21,7 +21,9 @@ conn = mysql.connector.connect(
     user=MYSQL["user"],
     password=MYSQL["password"],
     database=args.database,
-    autocommit=False
+    autocommit=False,
+    use_pure=True
+    
 )
 cursor = conn.cursor()
 
@@ -37,8 +39,7 @@ arquivos = [
     "sql/limpeza.sql",
     "sql/agregado_mensal.sql",
     "sql/agregado_motoristas.sql",
-    "sql/agregado_ociosidade.sql",
-    "sql/copia_pernambucanas.sql"
+    "sql/agregado_ociosidade.sql"
 ]
 
 try:
