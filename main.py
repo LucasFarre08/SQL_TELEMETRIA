@@ -21,8 +21,7 @@ conn = mysql.connector.connect(
     user=MYSQL["user"],
     password=MYSQL["password"],
     database=args.database,
-    autocommit=False,
-    use_pure=True
+    autocommit=False
 )
 cursor = conn.cursor()
 
@@ -39,6 +38,7 @@ arquivos = [
     "sql/agregado_mensal.sql",
     "sql/agregado_motoristas.sql",
     "sql/agregado_ociosidade.sql",
+    "sql/copia_pernambucanas.sql"
 ]
 
 try:
@@ -46,12 +46,19 @@ try:
         print(f"\nExecutando {arquivo}")
         with open(arquivo, encoding="utf8") as f:
             sql = f.read()
-        for i, result in enumerate(cursor.execute(sql, multi=True), start=1):
+
+        # A partir do mysql-connector-python 9.2.0, o parâmetro multi=True
+        # foi removido. Agora execute() já lida com múltiplas instruções
+        # automaticamente, e os result sets são percorridos com nextset().
+        cursor.execute(sql)
+        while True:
             try:
-                if result.with_rows:
-                    result.fetchall()
+                if cursor.with_rows:
+                    cursor.fetchall()
             except Exception:
                 pass
+            if not cursor.nextset():
+                break
     conn.commit()
     print("\n✔ Processo finalizado.")
 except Exception as e:
