@@ -21,7 +21,8 @@ conn = mysql.connector.connect(
     user=MYSQL["user"],
     password=MYSQL["password"],
     database=args.database,
-    autocommit=False
+    autocommit=False,
+    use_pure=True
 )
 cursor = conn.cursor()
 
