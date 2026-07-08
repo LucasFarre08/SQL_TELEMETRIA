@@ -1,0 +1,17 @@
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE viagens
+SET quilometragem = 0
+WHERE quilometragem > 1000;
+
+UPDATE viagens
+SET quilometragem = 0
+WHERE quilometragem < 0;
+
+UPDATE viagens
+SET litros_consumidos = 0
+WHERE litros_consumidos > 1000;
+
+UPDATE viagens
+SET litros_consumidos = 0
+WHERE litros_consumidos < 0;
