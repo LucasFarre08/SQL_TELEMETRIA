@@ -30,26 +30,32 @@ UPDATE freio
 SET
     ano_mes = DATE_FORMAT(ativado, '%Y%m'),
     grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'));
+
 UPDATE ociosidade
 SET
     ano_mes = DATE_FORMAT(ativado, '%Y%m'),
     grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'));
+
 UPDATE seguranca
 SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    ano_mes = DATE_FORMAT(data, '%Y%m'),
     grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(data, '%Y%m'));
+
 UPDATE rpm_amerelo
 SET
     ano_mes = DATE_FORMAT(ativado, '%Y%m'),
     grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'));
+
 UPDATE rpm_vermelho
 SET
     ano_mes = DATE_FORMAT(ativado, '%Y%m'),
     grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'));
+
 UPDATE velocidade_80km
 SET
     ano_mes = DATE_FORMAT(ativado, '%Y%m'),
     grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'));
+
 UPDATE velocidade_chuva_60km
 SET
     ano_mes = DATE_FORMAT(ativado, '%Y%m'),
