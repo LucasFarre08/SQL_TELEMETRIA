@@ -41,7 +41,7 @@ SET
     ano_mes = DATE_FORMAT(data, '%Y%m'),
     grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(data, '%Y%m'));
 
-UPDATE rpm_amerelo
+UPDATE rpm_amarelo
 SET
     ano_mes = DATE_FORMAT(ativado, '%Y%m'),
     grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'));
