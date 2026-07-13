@@ -28,3 +28,9 @@ SET grouping_ano_mes = CONCAT(`grouping`, ano_mes);
 
 DELETE FROM kickdown
 WHERE ativado is NULL;
+
+ALTER TABLE kickdown
+ADD COLUMN ano_mes VARCHAR(6);
+
+ALTER TABLE kickdown
+ADD COLUMN grouping_ano_mes VARCHAR(255);
