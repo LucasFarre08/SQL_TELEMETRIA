@@ -17,13 +17,13 @@ SET litros_consumidos = 0
 WHERE litros_consumidos < 0;
 
 ALTER TABLE kickdown
-ADD COLUMN ano_mes VARCHAR(7);
+ADD COLUMN IF NOT EXISTS ano_mes VARCHAR(6);
 UPDATE kickdown
 SET ano_mes = DATE_FORMAT(ativado, '%Y%m');
 ALTER TABLE kickdown
-ADD COLUMN grouping_ano_mes VARCHAR(255);
+ADD COLUMN IF NOT EXISTS grouping_ano_mes VARCHAR(255);
 UPDATE kickdown
-SET grouping_ano_mes = CONCAT(grouping, ano_mes);
+SET grouping_ano_mes = CONCAT(`grouping`, ano_mes);
 
 
 DELETE FROM kickdown
