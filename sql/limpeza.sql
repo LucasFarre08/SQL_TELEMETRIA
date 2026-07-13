@@ -63,7 +63,6 @@ SET
 
 UPDATE agregado_mensal
 SET
-    ano_mes = DATE_FORMAT(ano_mes, '%Y%m'),
     grouping_ano_mes = CONCAT(`grouping_id`, DATE_FORMAT(ano_mes, '%Y%m'));
 
 
