@@ -23,7 +23,7 @@ SET ano_mes = DATE_FORMAT(ativado, '%Y%m');
 ALTER TABLE kickdown
 ADD COLUMN grouping_ano_mes VARCHAR(255);
 UPDATE kickdown
-SET grouping_ano_mes = CONCAT(grouping_id, ano_mes);
+SET grouping_ano_mes = CONCAT(grouping, ano_mes);
 
 
 DELETE FROM kickdown
