@@ -21,8 +21,7 @@ WHERE litros_consumidos < 0;
 DELETE FROM kickdown
 WHERE ativado is NULL;
 
-ALTER TABLE kickdown
-ADD COLUMN ano_mes VARCHAR(6);
-
-ALTER TABLE kickdown
-ADD COLUMN grouping_ano_mes VARCHAR(255);
+UPDATE kickdown
+SET
+    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'));
