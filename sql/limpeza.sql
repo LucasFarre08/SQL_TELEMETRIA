@@ -65,5 +65,9 @@ UPDATE agregado_mensal
 SET
     grouping_ano_mes = CONCAT(`grouping_id`, DATE_FORMAT(ano_mes, '%Y%m'));
 
+UPDATE agregado_ociosidade_mensal
+SET
+    grouping_ano_mes = CONCAT(`grouping_id`, DATE_FORMAT(ano_mes, '%Y%m'));
+
 
 
