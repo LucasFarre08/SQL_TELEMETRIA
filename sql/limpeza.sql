@@ -69,5 +69,9 @@ UPDATE agregado_mensal_ociosidade
 SET
     grouping_ano_mes = CONCAT(`grouping_id`, DATE_FORMAT(ano_mes, '%Y%m'));
 
+UPDATE telemetria_sorocaba.velocidade_via_10
+SET
+    grouping_ano_mes = CONCAT(`grouping_id`, DATE_FORMAT(ano_mes, '%Y%m'));
+
 
 
