@@ -73,5 +73,13 @@ UPDATE telemetria_sorocaba.velocidade_via_10
 SET
     grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(inicio, '%Y%m'));
 
+UPDATE telemetria_sorocaba.viagens
+SET `grouping` = TRIM(LEADING '-' FROM `grouping`)
+WHERE `grouping` LIKE '-%';
+
+UPDATE telemetria_sorocaba.viagens
+SET `grouping` = REGEXP_REPLACE(`grouping`, '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[0-9]+';
+
 
 
