@@ -133,6 +133,15 @@ UPDATE telemetria_sorocaba.rpm_vermelho
 SET `grouping` = REGEXP_REPLACE(`grouping`, '^[0-9]+', '')
 WHERE `grouping` REGEXP '^[0-9]+';
 
+UPDATE telemetria_sorocaba.seguranca
+SET `grouping` = TRIM(LEADING '-' FROM `grouping`)
+WHERE `grouping` LIKE '-%';
+
+UPDATE telemetria_sorocaba.seguranca
+SET `grouping` = REGEXP_REPLACE(`grouping`, '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[0-9]+';
+
+
 
 
 
