@@ -17,6 +17,15 @@ SET litros_consumidos = 0
 WHERE litros_consumidos < 0;
 
 
+UPDATE ociosidade
+SET combustivel_gasto = 0
+WHERE combustivel_gasto > 1000;
+
+UPDATE ocisidade
+SET combustivel_gasto = 0
+WHERE combustivel_gasto < 0;
+
+
 
 DELETE FROM kickdown
 WHERE ativado is NULL;
