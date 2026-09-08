@@ -21,7 +21,7 @@ UPDATE ociosidade
 SET combustivel_gasto = 0
 WHERE combustivel_gasto > 1000;
 
-UPDATE ocisidade
+UPDATE ociosidade
 SET combustivel_gasto = 0
 WHERE combustivel_gasto < 0;
 
