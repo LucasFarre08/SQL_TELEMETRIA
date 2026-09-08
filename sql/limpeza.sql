@@ -85,5 +85,55 @@ UPDATE telemetria_sorocaba.viagens
 SET `grouping` = REGEXP_REPLACE(`grouping`, '^[0-9]+', '')
 WHERE `grouping` REGEXP '^[0-9]+';
 
+UPDATE telemetria_sorocaba.kickdown
+SET `grouping` = TRIM(LEADING '-' FROM `grouping`)
+WHERE `grouping` LIKE '-%';
+
+UPDATE telemetria_sorocaba.kickdown
+SET `grouping` = REGEXP_REPLACE(`grouping`, '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[0-9]+';
+
+UPDATE telemetria_sorocaba.velocidade_via_10
+SET `grouping` = TRIM(LEADING '-' FROM `grouping`)
+WHERE `grouping` LIKE '-%';
+
+UPDATE telemetria_sorocaba.velocidade_via_10
+SET `grouping` = REGEXP_REPLACE(`grouping`, '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[0-9]+';
+
+UPDATE telemetria_sorocaba.ociosidade
+SET `grouping` = TRIM(LEADING '-' FROM `grouping`)
+WHERE `grouping` LIKE '-%';
+
+UPDATE telemetria_sorocaba.ociosidade
+SET `grouping` = REGEXP_REPLACE(`grouping`, '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[0-9]+';
+
+UPDATE telemetria_sorocaba.freio
+SET `grouping` = TRIM(LEADING '-' FROM `grouping`)
+WHERE `grouping` LIKE '-%';
+
+UPDATE telemetria_sorocaba.freio
+SET `grouping` = REGEXP_REPLACE(`grouping`, '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[0-9]+';
+
+UPDATE telemetria_sorocaba.rpm_amarelo
+SET `grouping` = TRIM(LEADING '-' FROM `grouping`)
+WHERE `grouping` LIKE '-%';
+
+UPDATE telemetria_sorocaba.rpm_amarelo
+SET `grouping` = REGEXP_REPLACE(`grouping`, '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[0-9]+';
+
+UPDATE telemetria_sorocaba.rpm_vermelho
+SET `grouping` = TRIM(LEADING '-' FROM `grouping`)
+WHERE `grouping` LIKE '-%';
+
+UPDATE telemetria_sorocaba.rpm_vermelho
+SET `grouping` = REGEXP_REPLACE(`grouping`, '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[0-9]+';
+
+
+
 
 
