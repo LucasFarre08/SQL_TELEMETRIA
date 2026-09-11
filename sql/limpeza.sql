@@ -150,6 +150,114 @@ UPDATE telemetria_sorocaba.seguranca
 SET `grouping` = REGEXP_REPLACE(`grouping`, '^[0-9]+', '')
 WHERE `grouping` REGEXP '^[0-9]+';
 
+USE telemetria_west;
+
+SET SQL_SAFE_UPDATES = 0;
+
+
+UPDATE kickdown
+SET
+    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(
+        `grouping`,
+        '_',
+        DATE_FORMAT(ativado, '%Y%m'),
+        '_S',
+        CEIL(DAY(ativado) / 7)
+    );
+
+
+UPDATE freio
+SET
+    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(
+        `grouping`,
+        '_',
+        DATE_FORMAT(ativado, '%Y%m'),
+        '_S',
+        CEIL(DAY(ativado) / 7)
+    );
+
+
+UPDATE ociosidade
+SET
+    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(
+        `grouping`,
+        '_',
+        DATE_FORMAT(ativado, '%Y%m'),
+        '_S',
+        CEIL(DAY(ativado) / 7)
+    );
+
+
+UPDATE seguranca
+SET
+    ano_mes = DATE_FORMAT(data, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(data, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(
+        `grouping`,
+        '_',
+        DATE_FORMAT(data, '%Y%m'),
+        '_S',
+        CEIL(DAY(data) / 7)
+    );
+
+
+UPDATE rpm_amarelo
+SET
+    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(
+        `grouping`,
+        '_',
+        DATE_FORMAT(ativado, '%Y%m'),
+        '_S',
+        CEIL(DAY(ativado) / 7)
+    );
+
+
+UPDATE rpm_vermelho
+SET
+    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(
+        `grouping`,
+        '_',
+        DATE_FORMAT(ativado, '%Y%m'),
+        '_S',
+        CEIL(DAY(ativado) / 7)
+    );
+
+
+UPDATE velocidade_80km
+SET
+    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(
+        `grouping`,
+        '_',
+        DATE_FORMAT(ativado, '%Y%m'),
+        '_S',
+        CEIL(DAY(ativado) / 7)
+    );
+
+
+UPDATE velocidade_chuva_60km
+SET
+    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(
+        `grouping`,
+        '_',
+        DATE_FORMAT(ativado, '%Y%m'),
+        '_S',
+        CEIL(DAY(ativado) / 7)
+    );
+
 
 
 
