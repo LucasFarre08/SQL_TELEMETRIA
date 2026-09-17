@@ -40,7 +40,10 @@ arquivos = [
     "sql/agregado_mensal.sql",
     "sql/agregado_motoristas.sql",
     "sql/agregado_ociosidade.sql",
-    "sql/agregado_mensal_kickdown.sql"
+    "sql/agregado_mensal_kickdown.sql",
+    "sql/agregado_motorista_semanal_west.sql",
+    "sql/agregado_semanal_ociosidade_west.sql",
+    "sql/agregado_semanal_west.sql"
 ]
 
 try:
