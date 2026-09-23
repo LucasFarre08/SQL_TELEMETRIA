@@ -33,23 +33,63 @@ INSERT INTO tmp_agregado (
     duracao_int
 )
 SELECT
-    REPLACE(REPLACE(TRIM(UPPER(`grouping`)),'.',''),'-','') AS grouping_id,
-    DATE_FORMAT(inicio,'%Y-%m-01') + INTERVAL 0 DAY AS ano_mes,
-    ROUND(SUM(IFNULL(quilometragem,0)),2),
-    ROUND(SUM(IFNULL(litros_consumidos,0)),2),
-    SEC_TO_TIME(SUM(TIME_TO_SEC(IFNULL(duracao,'00:00:00')))),
-    ROUND(SUM(TIME_TO_SEC(IFNULL(duracao,'00:00:00'))) / 3600, 2)
+    REPLACE(
+        REPLACE(
+            TRIM(UPPER(`grouping`)),
+            '.', ''
+        ),
+        '-', ''
+    ) AS grouping_id,
+
+    CAST(
+        DATE_FORMAT(inicio, '%Y-%m-01')
+        AS DATE
+    ) AS ano_mes,
+
+    ROUND(SUM(IFNULL(quilometragem, 0)), 2) AS km_total,
+
+    ROUND(SUM(IFNULL(litros_consumidos, 0)), 2) AS litros_total,
+
+    SEC_TO_TIME(
+        SUM(
+            TIME_TO_SEC(
+                IFNULL(duracao, '00:00:00')
+            )
+        )
+    ) AS duracao,
+
+    ROUND(
+        SUM(
+            TIME_TO_SEC(
+                IFNULL(duracao, '00:00:00')
+            )
+        ) / 3600,
+        2
+    ) AS duracao_int
+
 FROM viagens
+
 WHERE inicio IS NOT NULL
   AND TRIM(`grouping`) <> ''
+
 GROUP BY
-    REPLACE(REPLACE(TRIM(UPPER(`grouping`)),'.',''),'-',''),
-    DATE_FORMAT(inicio,'%Y-%m-01');
+    REPLACE(
+        REPLACE(
+            TRIM(UPPER(`grouping`)),
+            '.', ''
+        ),
+        '-', ''
+    ),
+    CAST(
+        DATE_FORMAT(inicio, '%Y-%m-01')
+        AS DATE
+    );
 
 UPDATE agregado_mensal a
 JOIN tmp_agregado t
-ON a.grouping_id = t.grouping_id
-AND a.ano_mes = t.ano_mes
+    ON a.grouping_id = t.grouping_id
+   AND a.ano_mes = t.ano_mes
+
 SET
     a.km_total = t.km_total,
     a.litros_total = t.litros_total,
@@ -71,10 +111,13 @@ SELECT
     t.litros_total,
     t.duracao,
     t.duracao_int
+
 FROM tmp_agregado t
+
 LEFT JOIN agregado_mensal a
-ON a.grouping_id = t.grouping_id
-AND a.ano_mes = t.ano_mes
+    ON a.grouping_id = t.grouping_id
+   AND a.ano_mes = t.ano_mes
+
 WHERE a.grouping_id IS NULL;
 
 DROP TEMPORARY TABLE IF EXISTS tmp_agregado;
