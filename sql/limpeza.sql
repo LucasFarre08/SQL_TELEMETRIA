@@ -1,173 +1,100 @@
-START TRANSACTION;
-
 SET SQL_SAFE_UPDATES = 0;
 
 UPDATE viagens
-SET quilometragem = 0
-WHERE quilometragem > 1000;
-
-UPDATE viagens
-SET quilometragem = 0
-WHERE quilometragem < 0;
-
-UPDATE viagens
-SET litros_consumidos = 0
-WHERE litros_consumidos > 1000;
-
-UPDATE viagens
-SET litros_consumidos = 0
-WHERE litros_consumidos < 0;
-
+SET
+    quilometragem = CASE
+        WHEN quilometragem > 1000 OR quilometragem < 0 THEN 0
+        ELSE quilometragem
+    END,
+    litros_consumidos = CASE
+        WHEN litros_consumidos > 1000 OR litros_consumidos < 0 THEN 0
+        ELSE litros_consumidos
+    END
+WHERE quilometragem > 1000 OR quilometragem < 0
+   OR litros_consumidos > 1000 OR litros_consumidos < 0;
 
 UPDATE ociosidade
 SET combustivel_gasto = 0
-WHERE combustivel_gasto > 1000;
+WHERE combustivel_gasto > 1000 OR combustivel_gasto < 0;
 
-UPDATE ociosidade
-SET combustivel_gasto = 0
-WHERE combustivel_gasto < 0;
-
-
--- =========================================================
--- REMOVE KICKDOWN SEM DATA
--- =========================================================
 
 DELETE FROM kickdown
 WHERE ativado IS NULL;
 
 
--- =========================================================
--- KICKDOWN
--- =========================================================
 
 UPDATE kickdown
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    );
-
-
--- =========================================================
--- FREIO
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))
+WHERE ativado IS NOT NULL
+  AND (NOT (ano_mes <=> DATE_FORMAT(ativado, '%Y%m'))
+    OR NOT (grouping_ano_mes <=> CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))));
 
 UPDATE freio
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    );
-
-
--- =========================================================
--- OCIOSIDADE
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))
+WHERE ativado IS NOT NULL
+  AND (NOT (ano_mes <=> DATE_FORMAT(ativado, '%Y%m'))
+    OR NOT (grouping_ano_mes <=> CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))));
 
 UPDATE ociosidade
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    );
-
-
--- =========================================================
--- SEGURANÇA
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))
+WHERE ativado IS NOT NULL
+  AND (NOT (ano_mes <=> DATE_FORMAT(ativado, '%Y%m'))
+    OR NOT (grouping_ano_mes <=> CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))));
 
 UPDATE seguranca
-SET
-    ano_mes = DATE_FORMAT(data, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(data, '%Y%m')
-    );
-
-
--- =========================================================
--- RPM AMARELO
--- =========================================================
+SET ano_mes = DATE_FORMAT(data, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(data, '%Y%m'))
+WHERE data IS NOT NULL
+  AND (NOT (ano_mes <=> DATE_FORMAT(data, '%Y%m'))
+    OR NOT (grouping_ano_mes <=> CONCAT(`grouping`, DATE_FORMAT(data, '%Y%m'))));
 
 UPDATE rpm_amarelo
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    );
-
-
--- =========================================================
--- RPM VERMELHO
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))
+WHERE ativado IS NOT NULL
+  AND (NOT (ano_mes <=> DATE_FORMAT(ativado, '%Y%m'))
+    OR NOT (grouping_ano_mes <=> CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))));
 
 UPDATE rpm_vermelho
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    );
-
-
--- =========================================================
--- VELOCIDADE 80 KM
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))
+WHERE ativado IS NOT NULL
+  AND (NOT (ano_mes <=> DATE_FORMAT(ativado, '%Y%m'))
+    OR NOT (grouping_ano_mes <=> CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))));
 
 UPDATE velocidade_80km
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    );
-
-
--- =========================================================
--- VELOCIDADE CHUVA 60 KM
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))
+WHERE ativado IS NOT NULL
+  AND (NOT (ano_mes <=> DATE_FORMAT(ativado, '%Y%m'))
+    OR NOT (grouping_ano_mes <=> CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))));
 
 UPDATE velocidade_chuva_60km
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    );
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))
+WHERE ativado IS NOT NULL
+  AND (NOT (ano_mes <=> DATE_FORMAT(ativado, '%Y%m'))
+    OR NOT (grouping_ano_mes <=> CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))));
 
 
 -- =========================================================
--- AGREGADO MENSAL
--- FORMATO: GROUPING202609
--- SEM "_"
+-- AGREGADOS MENSAIS (formato GROUPING202609, sem "_")
 -- =========================================================
 
 UPDATE agregado_mensal
-SET
-    grouping_ano_mes = CONCAT(
-        grouping_id,
-        DATE_FORMAT(ano_mes, '%Y%m')
-    )
+SET grouping_ano_mes = CONCAT(grouping_id, DATE_FORMAT(ano_mes, '%Y%m'))
 WHERE grouping_id IS NOT NULL
-  AND ano_mes IS NOT NULL;
-
-
--- =========================================================
--- AGREGADO MENSAL OCIOSIDADE
--- =========================================================
+  AND ano_mes IS NOT NULL
+  AND NOT (grouping_ano_mes <=> CONCAT(grouping_id, DATE_FORMAT(ano_mes, '%Y%m')));
 
 UPDATE agregado_mensal_ociosidade
-SET
-    grouping_ano_mes = CONCAT(
-        grouping_id,
-        DATE_FORMAT(ano_mes, '%Y%m')
-    )
+SET grouping_ano_mes = CONCAT(grouping_id, DATE_FORMAT(ano_mes, '%Y%m'))
 WHERE grouping_id IS NOT NULL
-  AND ano_mes IS NOT NULL;
+  AND ano_mes IS NOT NULL
+  AND NOT (grouping_ano_mes <=> CONCAT(grouping_id, DATE_FORMAT(ano_mes, '%Y%m')));
 
 
 -- =========================================================
@@ -177,363 +104,116 @@ WHERE grouping_id IS NOT NULL
 USE telemetria_consigaz;
 
 UPDATE parado_acelerando
-SET
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    )
-WHERE ativado IS NOT NULL;
+SET grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m'))
+WHERE ativado IS NOT NULL
+  AND NOT (grouping_ano_mes <=> CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')));
 
 
 -- =========================================================
 -- SOROCABA
+-- Normaliza o grouping ANTES de montar grouping_ano_mes,
+-- senão o campo concatenado fica com o grouping sujo.
+-- Um único UPDATE por tabela (tira "-" inicial e dígitos iniciais).
 -- =========================================================
 
 USE telemetria_sorocaba;
 
-
-UPDATE velocidade_via_10
-SET
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(inicio, '%Y%m')
-    )
-WHERE inicio IS NOT NULL;
-
-
--- =========================================================
--- NORMALIZA GROUPING - VIAGENS
--- =========================================================
-
 UPDATE viagens
-SET `grouping` = TRIM(
-    LEADING '-' FROM `grouping`
-)
-WHERE `grouping` LIKE '-%';
-
-
-UPDATE viagens
-SET `grouping` = REGEXP_REPLACE(
-    `grouping`,
-    '^[0-9]+',
-    ''
-)
-WHERE `grouping` REGEXP '^[0-9]+';
-
-
--- =========================================================
--- NORMALIZA GROUPING - KICKDOWN
--- =========================================================
+SET `grouping` = REGEXP_REPLACE(TRIM(LEADING '-' FROM `grouping`), '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[-0-9]';
 
 UPDATE kickdown
-SET `grouping` = TRIM(
-    LEADING '-' FROM `grouping`
-)
-WHERE `grouping` LIKE '-%';
-
-
-UPDATE kickdown
-SET `grouping` = REGEXP_REPLACE(
-    `grouping`,
-    '^[0-9]+',
-    ''
-)
-WHERE `grouping` REGEXP '^[0-9]+';
-
-
--- =========================================================
--- NORMALIZA GROUPING - VELOCIDADE VIA 10
--- =========================================================
+SET `grouping` = REGEXP_REPLACE(TRIM(LEADING '-' FROM `grouping`), '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[-0-9]';
 
 UPDATE velocidade_via_10
-SET `grouping` = TRIM(
-    LEADING '-' FROM `grouping`
-)
-WHERE `grouping` LIKE '-%';
+SET `grouping` = REGEXP_REPLACE(TRIM(LEADING '-' FROM `grouping`), '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[-0-9]';
 
+UPDATE ociosidade
+SET `grouping` = REGEXP_REPLACE(TRIM(LEADING '-' FROM `grouping`), '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[-0-9]';
+
+UPDATE freio
+SET `grouping` = REGEXP_REPLACE(TRIM(LEADING '-' FROM `grouping`), '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[-0-9]';
+
+UPDATE rpm_amarelo
+SET `grouping` = REGEXP_REPLACE(TRIM(LEADING '-' FROM `grouping`), '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[-0-9]';
+
+UPDATE rpm_vermelho
+SET `grouping` = REGEXP_REPLACE(TRIM(LEADING '-' FROM `grouping`), '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[-0-9]';
+
+UPDATE seguranca
+SET `grouping` = REGEXP_REPLACE(TRIM(LEADING '-' FROM `grouping`), '^[0-9]+', '')
+WHERE `grouping` REGEXP '^[-0-9]';
 
 UPDATE velocidade_via_10
-SET `grouping` = REGEXP_REPLACE(
-    `grouping`,
-    '^[0-9]+',
-    ''
-)
-WHERE `grouping` REGEXP '^[0-9]+';
+SET grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(inicio, '%Y%m'))
+WHERE inicio IS NOT NULL
+  AND NOT (grouping_ano_mes <=> CONCAT(`grouping`, DATE_FORMAT(inicio, '%Y%m')));
 
 
 -- =========================================================
--- NORMALIZA GROUPING - OCIOSIDADE
--- =========================================================
-
-UPDATE ociosidade
-SET `grouping` = TRIM(
-    LEADING '-' FROM `grouping`
-)
-WHERE `grouping` LIKE '-%';
-
-
-UPDATE ociosidade
-SET `grouping` = REGEXP_REPLACE(
-    `grouping`,
-    '^[0-9]+',
-    ''
-)
-WHERE `grouping` REGEXP '^[0-9]+';
-
-
--- =========================================================
--- NORMALIZA GROUPING - FREIO
--- =========================================================
-
-UPDATE freio
-SET `grouping` = TRIM(
-    LEADING '-' FROM `grouping`
-)
-WHERE `grouping` LIKE '-%';
-
-
-UPDATE freio
-SET `grouping` = REGEXP_REPLACE(
-    `grouping`,
-    '^[0-9]+',
-    ''
-)
-WHERE `grouping` REGEXP '^[0-9]+';
-
-
--- =========================================================
--- NORMALIZA GROUPING - RPM AMARELO
--- =========================================================
-
-UPDATE rpm_amarelo
-SET `grouping` = TRIM(
-    LEADING '-' FROM `grouping`
-)
-WHERE `grouping` LIKE '-%';
-
-
-UPDATE rpm_amarelo
-SET `grouping` = REGEXP_REPLACE(
-    `grouping`,
-    '^[0-9]+',
-    ''
-)
-WHERE `grouping` REGEXP '^[0-9]+';
-
-
--- =========================================================
--- NORMALIZA GROUPING - RPM VERMELHO
--- =========================================================
-
-UPDATE rpm_vermelho
-SET `grouping` = TRIM(
-    LEADING '-' FROM `grouping`
-)
-WHERE `grouping` LIKE '-%';
-
-
-UPDATE rpm_vermelho
-SET `grouping` = REGEXP_REPLACE(
-    `grouping`,
-    '^[0-9]+',
-    ''
-)
-WHERE `grouping` REGEXP '^[0-9]+';
-
-
--- =========================================================
--- NORMALIZA GROUPING - SEGURANÇA
--- =========================================================
-
-UPDATE seguranca
-SET `grouping` = TRIM(
-    LEADING '-' FROM `grouping`
-)
-WHERE `grouping` LIKE '-%';
-
-
-UPDATE seguranca
-SET `grouping` = REGEXP_REPLACE(
-    `grouping`,
-    '^[0-9]+',
-    ''
-)
-WHERE `grouping` REGEXP '^[0-9]+';
-
-
--- =========================================================
--- BANCO WEST
+-- WEST
 -- =========================================================
 
 USE telemetria_west;
 
-
-SET SQL_SAFE_UPDATES = 0;
-
-
--- =========================================================
--- KICKDOWN
--- =========================================================
-
 UPDATE kickdown
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    ),
-    grouping_semana_ano_mes = CONCAT(
-        `grouping`,
-        '_',
-        DATE_FORMAT(ativado, '%Y%m'),
-        '_S',
-        CEIL(DAY(ativado) / 7)
-    )
-WHERE ativado IS NOT NULL;
-
-
--- =========================================================
--- FREIO
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7))
+WHERE ativado IS NOT NULL
+  AND NOT (grouping_semana_ano_mes <=> CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7)));
 
 UPDATE freio
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    ),
-    grouping_semana_ano_mes = CONCAT(
-        `grouping`,
-        '_',
-        DATE_FORMAT(ativado, '%Y%m'),
-        '_S',
-        CEIL(DAY(ativado) / 7)
-    )
-WHERE ativado IS NOT NULL;
-
-
--- =========================================================
--- OCIOSIDADE
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7))
+WHERE ativado IS NOT NULL
+  AND NOT (grouping_semana_ano_mes <=> CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7)));
 
 UPDATE ociosidade
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    ),
-    grouping_semana_ano_mes = CONCAT(
-        `grouping`,
-        '_',
-        DATE_FORMAT(ativado, '%Y%m'),
-        '_S',
-        CEIL(DAY(ativado) / 7)
-    )
-WHERE ativado IS NOT NULL;
-
-
--- =========================================================
--- SEGURANÇA
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7))
+WHERE ativado IS NOT NULL
+  AND NOT (grouping_semana_ano_mes <=> CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7)));
 
 UPDATE seguranca
-SET
-    ano_mes = DATE_FORMAT(data, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(data, '%Y%m')
-    ),
-    grouping_semana_ano_mes = CONCAT(
-        `grouping`,
-        '_',
-        DATE_FORMAT(data, '%Y%m'),
-        '_S',
-        CEIL(DAY(data) / 7)
-    )
-WHERE data IS NOT NULL;
-
-
--- =========================================================
--- RPM AMARELO
--- =========================================================
+SET ano_mes = DATE_FORMAT(data, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(data, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(`grouping`, '_', DATE_FORMAT(data, '%Y%m'), '_S', CEIL(DAY(data) / 7))
+WHERE data IS NOT NULL
+  AND NOT (grouping_semana_ano_mes <=> CONCAT(`grouping`, '_', DATE_FORMAT(data, '%Y%m'), '_S', CEIL(DAY(data) / 7)));
 
 UPDATE rpm_amarelo
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    ),
-    grouping_semana_ano_mes = CONCAT(
-        `grouping`,
-        '_',
-        DATE_FORMAT(ativado, '%Y%m'),
-        '_S',
-        CEIL(DAY(ativado) / 7)
-    )
-WHERE ativado IS NOT NULL;
-
-
--- =========================================================
--- RPM VERMELHO
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7))
+WHERE ativado IS NOT NULL
+  AND NOT (grouping_semana_ano_mes <=> CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7)));
 
 UPDATE rpm_vermelho
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    ),
-    grouping_semana_ano_mes = CONCAT(
-        `grouping`,
-        '_',
-        DATE_FORMAT(ativado, '%Y%m'),
-        '_S',
-        CEIL(DAY(ativado) / 7)
-    )
-WHERE ativado IS NOT NULL;
-
-
--- =========================================================
--- VELOCIDADE 80 KM
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7))
+WHERE ativado IS NOT NULL
+  AND NOT (grouping_semana_ano_mes <=> CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7)));
 
 UPDATE velocidade_80km
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    ),
-    grouping_semana_ano_mes = CONCAT(
-        `grouping`,
-        '_',
-        DATE_FORMAT(ativado, '%Y%m'),
-        '_S',
-        CEIL(DAY(ativado) / 7)
-    )
-WHERE ativado IS NOT NULL;
-
-
--- =========================================================
--- VELOCIDADE CHUVA 60 KM
--- =========================================================
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7))
+WHERE ativado IS NOT NULL
+  AND NOT (grouping_semana_ano_mes <=> CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7)));
 
 UPDATE velocidade_chuva_60km
-SET
-    ano_mes = DATE_FORMAT(ativado, '%Y%m'),
-    grouping_ano_mes = CONCAT(
-        `grouping`,
-        DATE_FORMAT(ativado, '%Y%m')
-    ),
-    grouping_semana_ano_mes = CONCAT(
-        `grouping`,
-        '_',
-        DATE_FORMAT(ativado, '%Y%m'),
-        '_S',
-        CEIL(DAY(ativado) / 7)
-    )
-WHERE ativado IS NOT NULL;
+SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
+    grouping_ano_mes = CONCAT(`grouping`, DATE_FORMAT(ativado, '%Y%m')),
+    grouping_semana_ano_mes = CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7))
+WHERE ativado IS NOT NULL
+  AND NOT (grouping_semana_ano_mes <=> CONCAT(`grouping`, '_', DATE_FORMAT(ativado, '%Y%m'), '_S', CEIL(DAY(ativado) / 7)));
