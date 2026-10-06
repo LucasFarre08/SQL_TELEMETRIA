@@ -8,26 +8,39 @@ LOCK_TIMEOUT = 300      # segundos que cada statement espera por um lock
 MAX_RETRIES = 3         # tentativas em caso de lock timeout (1205) / deadlock (1213)
 RETRY_ERRNOS = (1205, 1213)
 
-# Arquivos executados em todos os bancos
-ARQUIVOS_COMUNS = [
-    "sql/limpeza.sql",
+# Limpeza comum a todos os bancos (roda primeiro)
+LIMPEZA_COMUM = "sql/limpeza.sql"
+
+# Agregados genéricos, executados no banco atual em todas as execuções
+AGREGADOS_COMUNS = [
     "sql/agregado_mensal.sql",
-    "sql/agregado_mensal_maersk.sql",
-    "sql/agregado_mensal_pernambucanas.sql",
     "sql/agregado_motoristas.sql",
     "sql/agregado_ociosidade.sql",
     "sql/agregado_mensal_kickdown.sql",
-    "sql/agregado_motorista_semanal_west.sql",
-    "sql/agregado_semanal_ociosidade_west.sql",
-    "sql/agregado_semanal_west.sql",
 ]
 
-# Limpezas que só valem para um banco específico (rodam logo após limpeza.sql)
-ARQUIVOS_POR_BANCO = {
+# Limpezas específicas (rodam logo após limpeza.sql)
+LIMPEZA_POR_BANCO = {
     "telemetria_consigaz": ["sql/limpeza_consigaz.sql"],
     "telemetria_sorocaba": ["sql/limpeza_sorocaba.sql"],
     "telemetria_west": ["sql/limpeza_west.sql"],
 }
+
+# Agregados com USE fixo no arquivo: só fazem sentido no próprio banco
+AGREGADOS_POR_BANCO = {
+    "telemetria_maersk": ["sql/agregado_mensal_maersk.sql"],
+    "telemetria_pernambucanas": ["sql/agregado_mensal_pernambucanas.sql"],
+    "telemetria_west": [
+        "sql/agregado_motorista_semanal_west.sql",
+        "sql/agregado_semanal_ociosidade_west.sql",
+        "sql/agregado_semanal_west.sql",
+    ],
+}
+
+# Na limpeza, estes erros não são fatais:
+#   1146 = tabela não existe neste banco
+#   3105 = coluna gerada (o MySQL calcula o valor sozinho)
+ERROS_IGNORAVEIS_LIMPEZA = (1146, 3105)
 
 
 def split_statements(sql):
@@ -85,14 +98,15 @@ def mostrar_bloqueios(cursor):
             "FROM information_schema.innodb_trx ORDER BY trx_started"
         )
         rows = cursor.fetchall()
-        print("  >> Transações ativas no servidor (possíveis bloqueadoras):")
+        print("  >> Transacoes ativas no servidor (possiveis bloqueadoras):")
         for r in rows:
             print("    ", r)
     except Exception as e:
-        print("  >> Não foi possível consultar innodb_trx:", e)
+        print("  >> Nao foi possivel consultar innodb_trx:", e)
 
 
 def executar_arquivo(conn, cursor, arquivo, database):
+    ignoravel = "limpeza" in arquivo
     with open(arquivo, encoding="utf8") as f:
         statements = split_statements(f.read())
 
@@ -116,6 +130,9 @@ def executar_arquivo(conn, cursor, arquivo, database):
                         mostrar_bloqueios(cursor)
                     time.sleep(espera)
                     continue
+                if e.errno in ERROS_IGNORAVEIS_LIMPEZA and ignoravel:
+                    print(f"  [{n}/{len(statements)}] ignorado (erro {e.errno}) - {resumo}")
+                    break
                 print(f"  Statement com erro: {resumo}")
                 if e.errno == 1205:
                     mostrar_bloqueios(cursor)
@@ -155,9 +172,12 @@ def main():
     print("sql_mode ativo:", cursor.fetchone()[0])
     print("=" * 50)
 
-    arquivos = list(ARQUIVOS_COMUNS)
-    # limpezas específicas entram logo depois de limpeza.sql
-    arquivos[1:1] = ARQUIVOS_POR_BANCO.get(args.database, [])
+    arquivos = (
+        [LIMPEZA_COMUM]
+        + LIMPEZA_POR_BANCO.get(args.database, [])
+        + AGREGADOS_COMUNS
+        + AGREGADOS_POR_BANCO.get(args.database, [])
+    )
 
     arquivo = None
     try:
