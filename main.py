@@ -21,9 +21,9 @@ AGREGADOS_COMUNS = [
 
 # Limpezas específicas (rodam logo após limpeza.sql)
 LIMPEZA_POR_BANCO = {
-    "telemetria_consigaz": ["sql/limpeza_consigaz.sql"],
-    "telemetria_sorocaba": ["sql/limpeza_sorocaba.sql"],
-    "telemetria_west": ["sql/limpeza_west.sql"],
+    "telemetria_consigaz": ["sql/limpeza.sql"],
+    "telemetria_sorocaba": ["sql/limpeza.sql"],
+    "telemetria_west": ["sql/limpeza.sql"],
 }
 
 # Agregados com USE fixo no arquivo: só fazem sentido no próprio banco
