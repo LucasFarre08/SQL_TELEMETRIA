@@ -38,6 +38,8 @@ print("=" * 50)
 arquivos = [
     "sql/limpeza.sql",
     "sql/agregado_mensal.sql",
+    "sql/agregado_mensal_maersk.sql",
+    "sql/agregado_mensal_pernambucanas.sql",
     "sql/agregado_motoristas.sql",
     "sql/agregado_ociosidade.sql",
     "sql/agregado_mensal_kickdown.sql",
