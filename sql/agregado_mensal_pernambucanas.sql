@@ -6,7 +6,6 @@ SET SQL_SAFE_UPDATES = 0;
 
 DROP TEMPORARY TABLE IF EXISTS tmp_agregado;
 
-
 -- =========================================================
 -- 1. CRIA A TABELA AGREGADO MENSAL
 -- =========================================================
