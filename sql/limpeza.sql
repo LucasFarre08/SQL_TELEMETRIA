@@ -1,4 +1,18 @@
+-- =========================================================
+-- LIMPEZA TELEMETRIA (versão ajustada)
+-- - sem transação única: cada UPDATE faz commit sozinho
+-- - UPDATEs só tocam linhas que realmente mudam (menos locks)
+-- - timeout de lock maior na sessão
+-- =========================================================
+
+SET SESSION autocommit = 1;
+SET SESSION innodb_lock_wait_timeout = 300;
 SET SQL_SAFE_UPDATES = 0;
+
+
+-- =========================================================
+-- VIAGENS / OCIOSIDADE: valores fora do limite viram 0
+-- =========================================================
 
 UPDATE viagens
 SET
@@ -18,10 +32,17 @@ SET combustivel_gasto = 0
 WHERE combustivel_gasto > 1000 OR combustivel_gasto < 0;
 
 
+-- =========================================================
+-- REMOVE KICKDOWN SEM DATA
+-- =========================================================
+
 DELETE FROM kickdown
 WHERE ativado IS NULL;
 
 
+-- =========================================================
+-- ano_mes / grouping_ano_mes (banco atual)
+-- =========================================================
 
 UPDATE kickdown
 SET ano_mes = DATE_FORMAT(ativado, '%Y%m'),
