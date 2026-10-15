@@ -1,4 +1,3 @@
-```python
 import time
 import argparse
 import mysql.connector
