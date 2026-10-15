@@ -11,13 +11,20 @@ RETRY_ERRNOS = (1205, 1213)
 # Limpeza comum a todos os bancos (roda primeiro)
 LIMPEZA_COMUM = "sql/limpeza.sql"
 
-# Agregados genéricos, executados no banco atual em todas as execuções
+
+# Agregados genéricos
 AGREGADOS_COMUNS = [
     "sql/agregado_mensal.sql",
     "sql/agregado_motoristas.sql",
     "sql/agregado_ociosidade.sql",
     "sql/agregado_mensal_kickdown.sql",
 ]
+
+# Bancos que possuem agregado mensal próprio.
+AGREGADO_MENSAL_EXCLUIDO_DOS_COMUNS = {
+    "telemetria_maersk",
+}
+
 
 # Limpezas específicas (rodam logo após limpeza.sql)
 LIMPEZA_POR_BANCO = {
